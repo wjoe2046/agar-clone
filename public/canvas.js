@@ -10,7 +10,14 @@ player.locX = Math.floor(500 * Math.random() + 100);
 player.locY = Math.floor(500 * Math.random() + 100);
 
 function draw() {
+  //clear the screen out
   context.clearRect(0, 0, canvas.width, canvas.height);
+  //clamp the camera to the player
+  const camX = -player.locX + canvas.width / 2;
+  const camY = -player.locY + canvas.height / 2;
+
+  context.translate(camX, camY);
+
   context.beginPath();
   context.fillStyle = 'rgb(255, 230, 230)';
   //Draw an arc
