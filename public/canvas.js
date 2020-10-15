@@ -6,16 +6,15 @@ function init() {
 
 // Drawing
 
-let randomX = Math.floor(500 * Math.random() + 10);
-let randomY = Math.floor(500 * Math.random() + 10);
-
-console.log(randomX);
+player.locX = Math.floor(500 * Math.random() + 100);
+player.locY = Math.floor(500 * Math.random() + 100);
 
 function draw() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
   context.beginPath();
   context.fillStyle = 'rgb(255, 230, 230)';
   //Draw an arc
-  context.arc(randomX, randomY, 10, 0, Math.PI * 2);
+  context.arc(player.locX, player.locY, 10, 0, Math.PI * 2);
   context.fill();
   context.lineWidth = 3;
   context.strokeStyle = 'rgb(0, 255, 0)';
