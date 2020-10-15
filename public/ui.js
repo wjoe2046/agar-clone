@@ -1,5 +1,3 @@
-// const { init } = require('../express/expressMain');
-
 let wHeight = $(window).height();
 let wWidth = $(window).width();
 let player = {}; //this is all thigns this player
