@@ -12,7 +12,9 @@ player.locY = Math.floor(500 * Math.random() + 100);
 function draw() {
   //clear the screen out
   context.clearRect(0, 0, canvas.width, canvas.height);
-  context.setTransform(1, 0, 0, 1, 0);
+  //reset the translation back to default
+  context.setTransform(1, 0, 0, 1, 0, 0); //reset and override the current identification
+
   //clamp the camera to the player
   const camX = -player.locX + canvas.width / 2;
   const camY = -player.locY + canvas.height / 2;
@@ -25,6 +27,8 @@ function draw() {
   context.fillStyle = 'rgb(255, 230, 230)';
   //Draw an arc
   context.arc(player.locX, player.locY, 10, 0, Math.PI * 2);
+  context.arc(200, 200, 10, 0, Math.PI * 2);
+
   context.fill();
   context.lineWidth = 3;
   context.strokeStyle = 'rgb(0, 255, 0)';
