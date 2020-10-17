@@ -12,9 +12,12 @@ player.locY = Math.floor(500 * Math.random() + 100);
 function draw() {
   //clear the screen out
   context.clearRect(0, 0, canvas.width, canvas.height);
+  context.setTransform(1, 0, 0, 1, 0);
   //clamp the camera to the player
   const camX = -player.locX + canvas.width / 2;
   const camY = -player.locY + canvas.height / 2;
+
+  //translate along us to move the canvas (recenter)
 
   context.translate(camX, camY);
 
