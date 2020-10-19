@@ -23,6 +23,7 @@ socket.on('initReturn', (data) => {
 });
 
 socket.on('tock', (data) => {
-  console.log(data);
-  players = data.players;
+  (players = data.players),
+    (player.locX = data.playerX),
+    (player.locY = data.playerY);
 });

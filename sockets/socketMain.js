@@ -23,14 +23,10 @@ let settings = {
 initGame();
 
 //issue a message to every connected socket 30 fps
-setInterval(() => {
-  io.to('game').emit('tock', {
-    players,
-  });
-}, 33);
 
 io.sockets.on('connect', (socket) => {
   //A player has connected
+  let player = {};
   socket.on('init', (data) => {
     //Add the player to the game namespace
     socket.join('game');
@@ -39,7 +35,16 @@ io.sockets.on('connect', (socket) => {
     //make a playerData object
     let playerData = new PlayerData(data.playerName, settings);
     //make a master player object to hold both
-    let player = new Player(socket.id, playerConfig, playerData);
+    player = new Player(socket.id, playerConfig, playerData);
+
+    setInterval(() => {
+      io.to('game').emit('tock', {
+        players,
+        playerX: player.playerData.locX,
+        playerY: player.playerData.locY,
+      });
+    }, 33);
+
     socket.emit('initReturn', { orbs });
     players.push(playerData);
   });
@@ -49,19 +54,22 @@ io.sockets.on('connect', (socket) => {
     speed = player.playerConfig.speed;
     //update the player config object with a new direction in data
     //create the same local variable for player config for readability
-    xV = data.playerConfig.xVector = data.xVector;
-    yV = data.playerConfig.yVector = data.yVector;
+    xV = player.playerConfig.xVector = data.xVector;
+    yV = player.playerConfig.yVector = data.yVector;
 
     if (
-      (player.locX < 5 && player.xVector < 0) ||
-      (player.locX > 500 && xV > 0)
+      (player.playerData.locX < 5 && player.playerData.xVector < 0) ||
+      (player.playerData.locX > 500 && xV > 0)
     ) {
-      player.locY -= speed * yV;
-    } else if ((player.locY < 5 && yV > 0) || (player.locY > 500 && yV < 0)) {
-      player.locX += speed * xV;
+      player.playerData.locY -= speed * yV;
+    } else if (
+      (player.playerData.locY < 5 && yV > 0) ||
+      (player.playerData.locY > 500 && yV < 0)
+    ) {
+      player.playerData.locX += speed * xV;
     } else {
-      player.locX += speed * xV;
-      player.locY -= speed * yV;
+      player.playerData.locX += speed * xV;
+      player.playerData.locY -= speed * yV;
     }
   });
 });

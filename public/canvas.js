@@ -2,14 +2,13 @@
 
 // Drawing
 
-player.locX = Math.floor(500 * Math.random() + 100);
-player.locY = Math.floor(500 * Math.random() + 100);
-
 function draw() {
   //clear the screen out
   //reset the translation back to default
   context.setTransform(1, 0, 0, 1, 0, 0); //reset and override the current identification
   context.clearRect(0, 0, canvas.width, canvas.height);
+
+  console.log(player.locX, player.locY);
 
   //clamp the camera to the player
   const camX = -player.locX + canvas.width / 2;
