@@ -23,13 +23,15 @@ initGame();
 
 io.sockets.on('connect', (socket) => {
   //A player has connected
-  //Make a PlayerConfig object
-  let playerConfig = new PlayerConfig(settings);
-  //make a playerData object
-  let playerData = new PlayerData(null, settings);
-  //make a master player object to hold both
-  let player = new Player(socket.id, playerConfig, playerData);
-  socket.emit('init', { orbs });
+  socket.on('init', (data) => {
+    //Make a PlayerConfig object
+    let playerConfig = new PlayerConfig(settings);
+    //make a playerData object
+    let playerData = new PlayerData(data.playerName, settings);
+    //make a master player object to hold both
+    let player = new Player(socket.id, playerConfig, playerData);
+    socket.emit('initReturn', { orbs });
+  });
 });
 
 //populate the game canvas with orbs

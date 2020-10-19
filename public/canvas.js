@@ -1,9 +1,5 @@
 // const { deflateRaw } = require('zlib');
 
-function init() {
-  draw();
-}
-
 // Drawing
 
 player.locX = Math.floor(500 * Math.random() + 100);
