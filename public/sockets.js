@@ -14,8 +14,15 @@ function init() {
 
 socket.on('initReturn', (data) => {
   orbs = data.orbs;
+  setInterval(() => {
+    socket.emit('tick', {
+      xVector: player.xVector,
+      yVector: player.yVector,
+    });
+  }, 33);
 });
 
 socket.on('tock', (data) => {
   console.log(data);
+  players = data.players;
 });

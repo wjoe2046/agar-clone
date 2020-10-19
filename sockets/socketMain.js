@@ -43,6 +43,27 @@ io.sockets.on('connect', (socket) => {
     socket.emit('initReturn', { orbs });
     players.push(playerData);
   });
+
+  //server sent over the tick
+  socket.on('tick', (data) => {
+    speed = player.playerConfig.speed;
+    //update the player config object with a new direction in data
+    //create the same local variable for player config for readability
+    xV = data.playerConfig.xVector = data.xVector;
+    yV = data.playerConfig.yVector = data.yVector;
+
+    if (
+      (player.locX < 5 && player.xVector < 0) ||
+      (player.locX > 500 && xV > 0)
+    ) {
+      player.locY -= speed * yV;
+    } else if ((player.locY < 5 && yV > 0) || (player.locY > 500 && yV < 0)) {
+      player.locX += speed * xV;
+    } else {
+      player.locX += speed * xV;
+      player.locY -= speed * yV;
+    }
+  });
 });
 
 //populate the game canvas with orbs
