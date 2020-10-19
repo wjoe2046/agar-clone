@@ -8,6 +8,7 @@ const PlayerData = require('./classes/PlayerData');
 
 const Orb = require('./classes/Orb');
 let orbs = [];
+let players = [];
 
 let settings = {
   defaultOrbs: 500,
@@ -21,9 +22,18 @@ let settings = {
 
 initGame();
 
+//issue a message to every connected socket 30 fps
+setInterval(() => {
+  io.to('game').emit('tock', {
+    players,
+  });
+}, 33);
+
 io.sockets.on('connect', (socket) => {
   //A player has connected
   socket.on('init', (data) => {
+    //Add the player to the game namespace
+    socket.join('game');
     //Make a PlayerConfig object
     let playerConfig = new PlayerConfig(settings);
     //make a playerData object
@@ -31,6 +41,7 @@ io.sockets.on('connect', (socket) => {
     //make a master player object to hold both
     let player = new Player(socket.id, playerConfig, playerData);
     socket.emit('initReturn', { orbs });
+    players.push(playerData);
   });
 });
 
