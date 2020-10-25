@@ -11,6 +11,7 @@ const PlayerConfig = require('./classes/PlayerConfig');
 const PlayerData = require('./classes/PlayerData');
 
 const Orb = require('./classes/Orb');
+
 let orbs = [];
 let players = [];
 
@@ -30,9 +31,12 @@ initGame();
 
 io.sockets.on('connect', (socket) => {
   //A player has connected
+  console.log('a player has connected');
   let player = {};
+
   socket.on('init', (data) => {
     //Add the player to the game namespace
+    console.log('joined');
     socket.join('game');
     //Make a PlayerConfig object
     let playerConfig = new PlayerConfig(settings);
@@ -40,7 +44,7 @@ io.sockets.on('connect', (socket) => {
     let playerData = new PlayerData(data.playerName, settings);
     //make a master player object to hold both
     player = new Player(socket.id, playerConfig, playerData);
-
+    console.log(player);
     setInterval(() => {
       io.to('game').emit('tock', {
         players,
@@ -49,6 +53,7 @@ io.sockets.on('connect', (socket) => {
       });
     }, 33);
 
+    console.log('emit orbs');
     socket.emit('initReturn', { orbs });
     players.push(playerData);
   });
@@ -93,6 +98,7 @@ io.sockets.on('connect', (socket) => {
 
 //populate the game canvas with orbs
 function initGame() {
+  console.log('game initiated');
   for (let i = 0; i < settings.defaultOrbs; i++) {
     orbs.push(new Orb(settings));
   }

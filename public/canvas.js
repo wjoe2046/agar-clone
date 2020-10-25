@@ -8,8 +8,7 @@ function draw() {
   // clear the screen out so the old stuff is gone from the last frame
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-  console.log(player);
-  console.log(player.locX, player.locY);
+  // console.log(player.locX, player.locY);
 
   // clamp the camera to the player
   const camX = -player.locX + canvas.width / 2;
@@ -34,7 +33,9 @@ function draw() {
   });
 
   // draw all the orbs
+  console.log(orbs);
   orbs.forEach((orb) => {
+    console.log('draw orbs');
     context.beginPath();
     context.fillStyle = orb.color;
     context.arc(orb.locX, orb.locY, orb.radius, 0, Math.PI * 2);
