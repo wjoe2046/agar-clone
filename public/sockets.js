@@ -28,4 +28,6 @@ socket.on('tock', (data) => {
     (player.locY = data.playerY);
 });
 
-socket.on('orbSwitch', (data) => {});
+socket.on('orbSwitch', (data) => {
+  orbs.splice(data.orbIndex, 1, data.newOrb);
+});
