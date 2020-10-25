@@ -90,7 +90,12 @@ io.sockets.on('connect', (socket) => {
     capturedOrb
       .then((data) => {
         //resolve when the collisions happen
-        console.log('Orb collisions');
+        const orbData = {
+          orbIndex: data,
+          newOrb: orbs[data],
+        };
+        console.log(orbData);
+        io.sockets.emit('orbSwitch', { orbData });
       })
       .catch(() => {});
   });

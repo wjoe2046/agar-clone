@@ -33,9 +33,7 @@ function draw() {
   });
 
   // draw all the orbs
-  console.log(orbs);
   orbs.forEach((orb) => {
-    console.log('draw orbs');
     context.beginPath();
     context.fillStyle = orb.color;
     context.arc(orb.locX, orb.locY, orb.radius, 0, Math.PI * 2);
