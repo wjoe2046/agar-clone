@@ -53,7 +53,7 @@ io.sockets.on('connect', (socket) => {
     players.push(playerData);
   });
 
-  //server sent over the tick
+  //client sent over the tick
   socket.on('tick', (data) => {
     speed = player.playerConfig.speed;
     //update the player config object with a new direction in data
@@ -75,6 +75,19 @@ io.sockets.on('connect', (socket) => {
       player.playerData.locX += speed * xV;
       player.playerData.locY -= speed * yV;
     }
+
+    let capturedOrb = checkForOrbCollisions(
+      player.playerData,
+      player.playerConfig,
+      orbs,
+      settings
+    );
+    capturedOrb
+      .then((data) => {
+        //resolve when the collisions happen
+        console.log('Orb collisions');
+      })
+      .catch(() => {});
   });
 });
 

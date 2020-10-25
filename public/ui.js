@@ -1,12 +1,11 @@
 let wHeight = $(window).height();
 let wWidth = $(window).width();
-let player = {}; //this is all thigns this player
+let player = {}; //This is all things "this" player
 let orbs = [];
 let players = [];
 
 let canvas = document.querySelector('#the-canvas');
 let context = canvas.getContext('2d');
-
 canvas.width = wWidth;
 canvas.height = wHeight;
 
@@ -16,11 +15,10 @@ $(window).load(() => {
 
 $('.name-form').submit((event) => {
   event.preventDefault();
-  //   console.log('Submitted!');
+  // console.log("Submitted!")
   player.name = document.querySelector('#name-input').value;
   $('#loginModal').modal('hide');
   $('#spawnModal').modal('show');
-
   document.querySelector('.player-name').innerHTML = player.name;
 });
 
