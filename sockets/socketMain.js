@@ -16,16 +16,24 @@ let orbs = [];
 let players = [];
 
 let settings = {
-  defaultOrbs: 5000,
+  defaultOrbs: 50,
   defaultSpeed: 6,
   defaultSize: 6,
   //as a player gets bigger, the zoom needs to go out
   defaultZoom: 1.5,
-  worldWidth: 5000,
-  worldHeight: 5000,
+  worldWidth: 500,
+  worldHeight: 500,
 };
 
 initGame();
+
+setInterval(() => {
+  if (players.length > 0) {
+    io.to('game').emit('tock', {
+      players,
+    });
+  }
+}, 33);
 
 //issue a message to every connected socket 30 fps
 
@@ -44,16 +52,14 @@ io.sockets.on('connect', (socket) => {
     let playerData = new PlayerData(data.playerName, settings);
     //make a master player object to hold both
     player = new Player(socket.id, playerConfig, playerData);
-    console.log(player);
+
     setInterval(() => {
-      io.to('game').emit('tock', {
-        players,
+      socket.emit('tickTock', {
         playerX: player.playerData.locX,
         playerY: player.playerData.locY,
       });
     }, 33);
 
-    console.log('emit orbs');
     socket.emit('initReturn', { orbs });
     players.push(playerData);
   });
@@ -101,7 +107,17 @@ io.sockets.on('connect', (socket) => {
 
     //player collision
 
-    let playerDeath = checkForPlayerCollisions;
+    let playerDeath = checkForPlayerCollisions(
+      player.playerData,
+      player.playerConfig,
+      players,
+      player.socketId
+    );
+    playerDeath
+      .then((data) => {
+        console.log('Player collision!!!');
+      })
+      .catch(() => {});
   });
 });
 
