@@ -118,16 +118,20 @@ io.sockets.on('connect', (socket) => {
       .then((data) => {
         console.log('Player collision!!!');
         io.sockets.emit('updateLeaderBoard', getLeaderBoard());
+        //a player was absorbed. Let everyone know!
+        io.sockets.emit('playerDeath', data);
       })
       .catch(() => {});
   });
   socket.on('disconnect', (data) => {
     //find out who just left ... which player in players
+    //make sure the player exists
     if (player.playerData) {
       players.forEach((currPlayer, i) => {
         //if they match
         if (currPlayer.uid == player.playerData.uid) {
           players.splice(i, 1);
+          io.sockets.emit('updateLeaderBoard', getLeaderBoard());
         }
       });
       // const updateStats =
