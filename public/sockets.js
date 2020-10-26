@@ -33,3 +33,14 @@ socket.on('orbSwitch', (data) => {
 socket.on('tickTock', (data) => {
   (player.locX = data.playerX), (player.locY = data.playerY);
 });
+
+socket.on('updateLeaderBoard', (data) => {
+  console.log('hi');
+  console.log(data);
+  document.querySelector('.leader-board').innerHTML = '';
+  data.forEach((curPlayer) => {
+    document.querySelector(
+      '.leader-board'
+    ).innerHTML += `<li class='leaderboard-player'>${curPlayer.name} - ${curPlayer.score}</li>`;
+  });
+});

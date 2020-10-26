@@ -116,10 +116,22 @@ io.sockets.on('connect', (socket) => {
     );
     playerDeath
       .then((data) => {
-        // console.log('Player collision!!!');
+        console.log('Player collision!!!');
         io.sockets.emit('updateLeaderBoard', getLeaderBoard());
       })
       .catch(() => {});
+  });
+  socket.on('disconnect', (data) => {
+    //find out who just left ... which player in players
+    if (player.playerData) {
+      players.forEach((currPlayer, i) => {
+        //if they match
+        if (currPlayer.uid == player.playerData.uid) {
+          players.splice(i, 1);
+        }
+      });
+      // const updateStats =
+    }
   });
 });
 
@@ -128,7 +140,7 @@ function getLeaderBoard() {
   players.sort((a, b) => {
     return b.score - a.score;
   });
-  let leaderBoard = player.map((curPlayer) => {
+  let leaderBoard = players.map((curPlayer) => {
     return {
       name: curPlayer.name,
       score: curPlayer.score,
@@ -139,7 +151,6 @@ function getLeaderBoard() {
 
 //populate the game canvas with orbs
 function initGame() {
-  console.log('game initiated');
   for (let i = 0; i < settings.defaultOrbs; i++) {
     orbs.push(new Orb(settings));
   }
